@@ -19,7 +19,7 @@ def main():
             ROOT.PixelUnpack(0x0800),
             ROOT.PixelUnpack(0x0801),
             ROOT.PixelUnpack(0x0802),
-            ROOT.SciFiUnpack(),
+            ROOT.SciFiUnpack(0x0900),
         ]
 
     for unpacker in unpackers:
