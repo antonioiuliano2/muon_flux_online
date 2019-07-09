@@ -9,21 +9,16 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True
 def main():
     source = ROOT.ShipTdcSource(args.input)
 
-    unpackers = [
-        ROOT.DriftTubeUnpack(args.charm),
-        ROOT.RPCUnpack(),
-        ROOT.ScalerUnpack(),
-    ]
-    if args.charm:
-        unpackers += [
-            ROOT.PixelUnpack(0x0800),
-            ROOT.PixelUnpack(0x0801),
-            ROOT.PixelUnpack(0x0802),
-            ROOT.SciFiUnpack(),
-        ]
+    source.AddUnpacker(0xc00, ROOT.DriftTubeUnpack(args.charm))
+    source.AddUnpacker(0xb00, ROOT.RPCUnpack())
+    source.AddUnpacker(0x8100, ROOT.ScalerUnpack())
 
-    for unpacker in unpackers:
-        source.AddUnpacker(unpacker)
+    if args.charm:
+        pixelUnpack = ROOT.PixelUnpack(0x800)
+        source.AddUnpacker(0x800, pixelUnpack)
+        source.AddUnpacker(0x801, pixelUnpack)
+        source.AddUnpacker(0x802, pixelUnpack)
+        source.AddUnpacker(0x900, ROOT.SciFiUnpack())
 
     run = ROOT.FairRunOnline(source)
     run.SetOutputFile(args.output)
