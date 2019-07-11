@@ -18,7 +18,7 @@ def main():
         source.AddUnpacker(0x800, pixelUnpack)
         source.AddUnpacker(0x801, pixelUnpack)
         source.AddUnpacker(0x802, pixelUnpack)
-        source.AddUnpacker(0x900, ROOT.SciFiUnpack())
+        source.AddUnpacker(0x900, ROOT.SciFiUnpack(0x900))
 
     run = ROOT.FairRunOnline(source)
     run.SetOutputFile(args.output)
